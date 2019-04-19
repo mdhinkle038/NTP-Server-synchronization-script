@@ -1,0 +1,37 @@
+#!/bin/bash
+ntpstat >> /home/dump
+backup=$(ntpq -p | grep + | cut -d " " -f 1)
+string3="synchronised"
+string=$(grep synchronised dump | cut -d " " -f 1)
+syncServer=$(grep synchronised dump)
+offset=$(grep ms dump | cut -d " " -f 8)
+echo "The offset is $offset ms"
+if [ $offset -lt 1000 ]
+then
+        echo "Time is accurate within one second"
+                if [ "$string" == "$string3" ]
+                then
+                        echo "The time is $syncServer"
+                        echo "$backup ntp server is elgible for selection"
+                        echo `date -R` "Time Check Completed. The offset is $offset ms. The time is $syncServer." >> /var/log/ntp.log
+
+                fi
+
+elif [ $offset -gt 1000 ]
+then
+        echo "Time is not accurate within one second"
+                if [ "$string == $string3" ]
+                then
+                        echo "The time is $syncServer"
+                        echo "$backup ntp server is elgible for selection"
+                        echo `date -R` "Time Check Completed. The offset is $offset ms. The time is $syncServer." >> /var/log/ntp.log
+                fi
+else
+        echo "The NTP server is not synchronised"
+        echo `date -R` "Time Check Completed. The NTP server is not synchronised."  >> /var/log/ntp.log
+fi
+
+rm /home/dump
+
+
+
