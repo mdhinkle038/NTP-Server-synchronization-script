@@ -1,5 +1,6 @@
 # NTP-Server-synchronization-script
 This script was a requirement in setting up my NTP server:
+
 Set up an NTP server on your student VMs, and write a script that checks NTP synchronization.
 
 Students will set up NTPd on their VMs to point to time.nist.gov and pool.ntp.org.
